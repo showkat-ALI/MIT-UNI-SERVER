@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongoose';
 import { academicSemesterNameCodeMapper } from './academicSemester.constants';
 import { TAcademicSemester } from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';

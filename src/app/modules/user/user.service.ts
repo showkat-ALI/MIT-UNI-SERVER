@@ -21,8 +21,7 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
     studentData.admissionSemester,
   );
 
-  console.log(getSingleAcademicSemester);
-  userData.id = generateStudentId(getSingleAcademicSemester);
+  userData.id = await generateStudentId(getSingleAcademicSemester);
 
   // create a user
   const newUser = await User.create(userData);
