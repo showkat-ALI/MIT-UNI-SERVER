@@ -21,8 +21,9 @@ const getAllStudents = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const query = req?.query;
   try {
-    const result = await StudentServices.getAllStudentsFromDB();
+    const result = await StudentServices.getAllStudentsFromDB(query);
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
