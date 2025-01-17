@@ -3,7 +3,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
-import { TErrorSource } from '../interface/error';
 import { ZodError } from 'zod';
 import handleZodError from '../error/handleZodError';
 import config from '../config';
@@ -11,6 +10,7 @@ import handleValidationError from '../error/handleValidationError';
 import AppError from '../error/AppError';
 import handleCastError from '../error/handleCastError';
 import handleDuplicateError from '../error/handleDuplicateError';
+import { TErrorSource } from '../interface/error';
 
 const globalErrorHandler: ErrorRequestHandler = (
   err,
