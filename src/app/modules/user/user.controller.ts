@@ -6,11 +6,7 @@ import { UserServices } from './user.service';
 const createStudent = catchAsync(async (req, res) => {
   const { password, student: studentData } = req.body;
 
-  const result = await UserServices.createStudentIntoDB(
-    req.file,
-    password,
-    studentData,
-  );
+  const result = await UserServices.createStudentIntoDB(password, studentData);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -23,11 +19,7 @@ const createStudent = catchAsync(async (req, res) => {
 const createFaculty = catchAsync(async (req, res) => {
   const { password, faculty: facultyData } = req.body;
 
-  const result = await UserServices.createFacultyIntoDB(
-    req.file,
-    password,
-    facultyData,
-  );
+  const result = await UserServices.createFacultyIntoDB(password, facultyData);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -40,11 +32,7 @@ const createFaculty = catchAsync(async (req, res) => {
 const createAdmin = catchAsync(async (req, res) => {
   const { password, admin: adminData } = req.body;
 
-  const result = await UserServices.createAdminIntoDB(
-    req.file,
-    password,
-    adminData,
-  );
+  const result = await UserServices.createAdminIntoDB(password, adminData);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -54,34 +42,8 @@ const createAdmin = catchAsync(async (req, res) => {
   });
 });
 
-const getMe = catchAsync(async (req, res) => {
-  const { userId, role } = req.user;
-  const result = await UserServices.getMe(userId, role);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'User is retrieved succesfully',
-    data: result,
-  });
-});
-
-const changeStatus = catchAsync(async (req, res) => {
-  const id = req.params.id;
-
-  const result = await UserServices.changeStatus(id, req.body);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Status is updated succesfully',
-    data: result,
-  });
-});
 export const UserControllers = {
   createStudent,
   createFaculty,
   createAdmin,
-  getMe,
-  changeStatus,
 };
