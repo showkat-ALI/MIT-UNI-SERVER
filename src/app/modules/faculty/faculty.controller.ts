@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { FacultyServices } from './faculty.services';
+import { FacultyServices } from './faculty.service';
 
 const getSingleFaculty = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -16,6 +16,8 @@ const getSingleFaculty = catchAsync(async (req, res) => {
 });
 
 const getAllFaculties = catchAsync(async (req, res) => {
+  console.log(req.cookies);
+
   const result = await FacultyServices.getAllFacultiesFromDB(req.query);
 
   sendResponse(res, {
@@ -41,12 +43,12 @@ const updateFaculty = catchAsync(async (req, res) => {
 
 const deleteFaculty = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await FacultyServices.deleteFacultyFromDB(id);
+  const result = await FacultyServices.deleteStudentFromDB(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Faculty is deleted successfully',
+    message: 'Faculty is deleted succesfully',
     data: result,
   });
 });

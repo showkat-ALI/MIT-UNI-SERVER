@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { CourseServices } from './course.services';
+import { CourseServices } from './course.service';
 
 const createCourse = catchAsync(async (req, res) => {
   const result = await CourseServices.createCourseIntoDB(req.body);
@@ -9,7 +9,7 @@ const createCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Course is created successfully',
+    message: 'Course is created succesfully',
     data: result,
   });
 });
@@ -32,7 +32,7 @@ const getSingleCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Course is retrieved successfully',
+    message: 'Course is retrieved succesfully',
     data: result,
   });
 });
@@ -44,7 +44,7 @@ const updateCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'course is updated successfully',
+    message: 'course is updated succesfully',
     data: result,
   });
 });
@@ -56,7 +56,7 @@ const deleteCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Course is deleted successfully',
+    message: 'Course is deleted succesfully',
     data: result,
   });
 });
@@ -73,7 +73,7 @@ const assignFacultiesWithCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Faculties assigned  successfully',
+    message: 'Faculties assigned  succesfully',
     data: result,
   });
 });
@@ -90,7 +90,7 @@ const removeFacultiesFromCourse = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Faculties removed  successfully',
+    message: 'Faculties removed  succesfully',
     data: result,
   });
 });

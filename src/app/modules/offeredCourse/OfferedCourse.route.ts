@@ -1,7 +1,7 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { OfferedCourseControllers } from './offeredCourse.controllers';
-import { OfferedCourseValidations } from './offeredCourse.validation';
+import { OfferedCourseControllers } from './OfferedCourse.controller';
+import { OfferedCourseValidations } from './OfferedCourse.validation';
 
 const router = express.Router();
 
@@ -21,6 +21,9 @@ router.patch(
   OfferedCourseControllers.updateOfferedCourse,
 );
 
-router.delete('/:id', OfferedCourseControllers.deleteOfferedCourseFromDB);
+router.delete(
+  '/:id',
+  OfferedCourseControllers.deleteOfferedCourseFromDB,
+);
 
 export const offeredCourseRoutes = router;

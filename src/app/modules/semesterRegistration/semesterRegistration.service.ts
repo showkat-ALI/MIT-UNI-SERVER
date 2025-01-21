@@ -1,19 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
-// import { OfferedCourse } from '../OfferedCourse/OfferedCourse.model';
+import mongoose from 'mongoose';
+import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
+import { OfferedCourse } from '../OfferedCourse/OfferedCourse.model';
 import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { RegistrationStatus } from './semesterRegistration.constant';
 import { TSemesterRegistration } from './semesterRegistration.interface';
 import { SemesterRegistration } from './semesterRegistration.model';
-import AppError from '../../error/AppError';
-import QueryBuilder from '../../QueryBuilder/queryBuilder';
-import { OfferedCourse } from '../offeredCourse/offeredCourse.model';
-import mongoose from 'mongoose';
 
 const createSemesterRegistrationIntoDB = async (
   payload: TSemesterRegistration,
 ) => {
-  /*
+  /**
    * Step1: Check if there any registered semester that is already 'UPCOMING'|'ONGOING'
    * Step2: Check if the semester is exist
    * Step3: Check if the semester is already registered!
@@ -34,7 +33,7 @@ const createSemesterRegistrationIntoDB = async (
   if (isThereAnyUpcomingOrOngoingSEmester) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
-      `There is already an ${isThereAnyUpcomingOrOngoingSEmester.status} registered semester !`,
+      `There is aready an ${isThereAnyUpcomingOrOngoingSEmester.status} registered semester !`,
     );
   }
   // check if the semester is exist
@@ -73,7 +72,7 @@ const getAllSemesterRegistrationsFromDB = async (
   )
     .filter()
     .sort()
-    .pagination()
+    .paginate()
     .fields();
 
   const result = await semesterRegistrationQuery.modelQuery;
@@ -151,9 +150,9 @@ const updateSemesterRegistrationIntoDB = async (
 };
 
 const deleteSemesterRegistrationFromDB = async (id: string) => {
-  /**
+  /** 
   * Step1: Delete associated offered courses.
-  * Step2: Delete semester registraton when the status is
+  * Step2: Delete semester registraton when the status is 
   'UPCOMING'.
   **/
 

@@ -1,14 +1,15 @@
 import httpStatus from 'http-status';
+import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
+import { Course } from '../Course/course.model';
+import { Faculty } from '../Faculty/faculty.model';
 import { AcademicDepartment } from '../academicDepartment/academicDepartment.model';
 import { AcademicFaculty } from '../academicFaculty/academicFaculty.model';
 import { SemesterRegistration } from '../semesterRegistration/semesterRegistration.model';
-import { TOfferedCourse } from './offeredCourse.interface';
-import { OfferedCourse } from './offeredCourse.model';
-import { hasTimeConflict } from './offeredCourse.utils';
-import AppError from '../../error/AppError';
-import QueryBuilder from '../../QueryBuilder/queryBuilder';
-import { Course } from '../course/course.model';
-import { Faculty } from '../faculty/faculty.model';
+import { TOfferedCourse } from './OfferedCourse.interface';
+import { OfferedCourse } from './OfferedCourse.model';
+import { hasTimeConflict } from './OfferedCourse.utils';
+
 const createOfferedCourseIntoDB = async (payload: TOfferedCourse) => {
   const {
     semesterRegistration,
@@ -134,7 +135,7 @@ const getAllOfferedCoursesFromDB = async (query: Record<string, unknown>) => {
   const offeredCourseQuery = new QueryBuilder(OfferedCourse.find(), query)
     .filter()
     .sort()
-    .pagination()
+    .paginate()
     .fields();
 
   const result = await offeredCourseQuery.modelQuery;
@@ -178,6 +179,7 @@ const updateOfferedCourseIntoDB = async (
 
   const semesterRegistration = isOfferedCourseExists.semesterRegistration;
   // get the schedules of the faculties
+
 
   // Checking the status of the semester registration
   const semesterRegistrationStatus =

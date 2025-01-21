@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
+import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
+import { AdminSearchableFields } from './admin.constant';
 import { TAdmin } from './admin.interface';
 import { Admin } from './admin.model';
-import { AdminSearchableFields } from './admin.constant';
-import QueryBuilder from '../../QueryBuilder/queryBuilder';
-import AppError from '../../error/AppError';
 
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
   const adminQuery = new QueryBuilder(Admin.find(), query)
     .search(AdminSearchableFields)
     .filter()
     .sort()
-    .pagination()
+    .paginate()
     .fields();
 
   const result = await adminQuery.modelQuery;

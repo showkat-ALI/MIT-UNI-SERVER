@@ -41,7 +41,7 @@ The backend of this project is built using Node.js and Express.js. It provides R
    ```
 2. Navigate to the project directory:
    ```bash
-   cd PH-UNI-SERVER
+   cd MIT-UNI-SERVER
    ```
 3. Install dependencies:
    ```bash

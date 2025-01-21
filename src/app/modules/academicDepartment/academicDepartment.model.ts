@@ -1,7 +1,7 @@
 import httpStatus from 'http-status';
 import { Schema, model } from 'mongoose';
+import AppError from '../../errors/AppError';
 import { TAcademicDepartment } from './academicDepartment.interface';
-import AppError from '../../error/AppError';
 
 const academicDepartmentSchema = new Schema<TAcademicDepartment>(
   {
@@ -19,6 +19,7 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>(
     timestamps: true,
   },
 );
+
 
 academicDepartmentSchema.pre('save', async function (next) {
   const isDepartmentExist = await AcademicDepartment.findOne({
