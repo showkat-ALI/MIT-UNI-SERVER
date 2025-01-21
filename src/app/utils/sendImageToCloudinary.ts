@@ -2,6 +2,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs';
 import multer from 'multer';
 import config from '../config';
+import AppError from '../errors/AppError';
+import httpStatus from 'http-status';
 
 cloudinary.config({
   cloud_name: config.cloudinary_cloud_name,
@@ -22,7 +24,7 @@ export const sendImageToCloudinary = (imageName: string, path: string) => {
         // delete a file asynchronously
         fs.unlink(path, (err) => {
           if (err) {
-            console.log(err);
+            throw new AppError(httpStatus.BAD_GATEWAY, err.message as string);
           } else {
             console.log('File is deleted.');
           }

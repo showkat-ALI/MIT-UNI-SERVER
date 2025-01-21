@@ -100,8 +100,8 @@ npm test
 The backend can be deployed using Docker and Kubernetes. Ensure you have Docker and Kubernetes installed and configured.
 
 ```
-docker build -t ph-uni-server .
-docker run -p 3000:3000 ph-uni-server
+docker build -t  .
+docker run -p 3000:3000 
 ```
 
 For Kubernetes, create a deployment and service configuration and apply them using `kubectl`.
