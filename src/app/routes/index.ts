@@ -11,7 +11,7 @@ import { FacultyRoutes } from '../modules/Faculty/faculty.route';
 import { offeredCourseRoutes } from '../modules/OfferedCourse/OfferedCourse.route';
 import { semesterRegistrationRoutes } from '../modules/SemesterRegistration/semesterRegistration.route';
 import { StudentRoutes } from '../modules/Student/student.route';
-import { UserRoutes } from '../modules/User/user.route';
+import { UserRoutes } from '../modules/user/user.route';
 
 const router = Router();
 
