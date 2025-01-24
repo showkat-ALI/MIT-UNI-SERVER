@@ -20,7 +20,6 @@ const getAllAcademicSemesters = catchAsync(async (req, res) => {
   const result = await AcademicSemesterServices.getAllAcademicSemestersFromDB(
     req.query,
   );
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
