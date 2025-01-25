@@ -40,7 +40,7 @@ const loginUser = async (payload: TLoginUser) => {
 
   const jwtPayload = {
     userId: user.id,
-    role: user.role,
+    roles: user.roles,
     email: user.email,
     status: user.status,
     isDeleted: user.isDeleted,
@@ -105,7 +105,7 @@ const changePassword = async (
   await User.findOneAndUpdate(
     {
       id: userData.userId,
-      role: userData.role,
+      roles: { $in: userData.roles },
     },
     {
       password: newHashedPassword,
@@ -152,7 +152,7 @@ const refreshToken = async (token: string) => {
 
   const jwtPayload = {
     userId: user.id,
-    role: user.role,
+    roles: user.roles,
     email: user.email,
     status: user.status,
     isDeleted: user.isDeleted,
@@ -192,7 +192,7 @@ const forgetPassword = async (userId: string) => {
 
   const jwtPayload = {
     userId: user.id,
-    role: user.role,
+    roles: user.roles,
     email: user.email,
     status: user.status,
     isDeleted: user.isDeleted,
@@ -256,7 +256,7 @@ const resetPassword = async (
   await User.findOneAndUpdate(
     {
       id: decoded.userId,
-      role: decoded.role,
+      roles: { $in: [decoded.roles] },
     },
     {
       password: newHashedPassword,

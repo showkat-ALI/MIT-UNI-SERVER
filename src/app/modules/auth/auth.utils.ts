@@ -3,7 +3,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 export const createToken = (
   jwtPayload: {
     userId: string;
-    role: string;
+    roles: string[];
     email: string;
     status: string;
     isDeleted: boolean;

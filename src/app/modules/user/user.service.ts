@@ -33,7 +33,7 @@ const createStudentIntoDB = async (
   userData.password = password || (config.default_password as string);
 
   //set student role
-  userData.role = 'student';
+  userData.roles = ['student'];
   // set student email
   userData.email = payload.email;
 
@@ -113,7 +113,7 @@ const createFacultyIntoDB = async (
   userData.password = password || (config.default_password as string);
 
   //set faculty role
-  userData.role = 'faculty';
+  userData.roles = ['faculty'];
   //set faculty email
   userData.email = payload.email;
 
@@ -185,7 +185,7 @@ const createAdminIntoDB = async (
   userData.password = password || (config.default_password as string);
 
   //set student role
-  userData.role = 'admin';
+  userData.roles = ['admin'];
   //set admin email
   userData.email = payload.email;
   const session = await mongoose.startSession();
@@ -232,16 +232,19 @@ const createAdminIntoDB = async (
   }
 };
 
-const getMe = async (userId: string, role: string) => {
+const getMe = async (userId: string, roles: string[]) => {
   let result = null;
-  if (role === 'student') {
+  if (roles.includes('student')) {
     result = await Student.findOne({ id: userId }).populate('user');
   }
-  if (role === 'admin') {
+  if (roles.includes('superAdmin')) {
+    result = await Admin.findOne({ id: userId }).populate('user');
+  }
+  if (roles.includes('admin')) {
     result = await Admin.findOne({ id: userId }).populate('user');
   }
 
-  if (role === 'faculty') {
+  if (roles.includes('faculty')) {
     result = await Faculty.findOne({ id: userId }).populate('user');
   }
 

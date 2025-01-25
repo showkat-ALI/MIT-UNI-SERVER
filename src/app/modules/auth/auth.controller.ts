@@ -26,6 +26,20 @@ const loginUser = catchAsync(async (req, res) => {
     },
   });
 });
+const logoutUser = catchAsync(async (req, res) => {
+  res.clearCookie('refreshToken', {
+    secure: config.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'lax',
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User is logged out successfully!',
+    data: null,
+  });
+});
 
 const changePassword = catchAsync(async (req, res) => {
   const { ...passwordData } = req.body;
@@ -84,4 +98,5 @@ export const AuthControllers = {
   refreshToken,
   forgetPassword,
   resetPassword,
+  logoutUser,
 };

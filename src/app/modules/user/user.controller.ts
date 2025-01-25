@@ -54,8 +54,8 @@ const createAdmin = catchAsync(async (req, res) => {
 });
 
 const getMe = catchAsync(async (req, res) => {
-  const { userId, role } = req.user;
-  const result = await UserServices.getMe(userId, role);
+  const { userId, roles } = req.user;
+  const result = await UserServices.getMe(userId, roles);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -3,11 +3,11 @@ import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import AppError from '../errors/AppError';
-import { TUserRole } from '../modules/user/user.interface';
+import { Roles } from '../modules/user/user.interface';
 import { User } from '../modules/user/user.model';
 import catchAsync from '../utils/catchAsync';
 
-const auth = (...requiredRoles: TUserRole[]) => {
+const auth = (requiredRoles: Roles) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.cookies.refreshToken;
 
@@ -22,7 +22,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
       config.jwt_access_secret as string,
     ) as JwtPayload;
 
-    const { role, userId, iat } = decoded;
+    const { roles, userId, iat } = decoded;
 
     // checking if the user is exist
     const user = await User.isUserExistsByCustomId(userId);
@@ -55,14 +55,14 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized !');
     }
 
-    if (requiredRoles && !requiredRoles.includes(role)) {
+    if (!requiredRoles.some((role) => roles.includes(role))) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
         'You are not authorized  hi!',
       );
     }
 
-    req.user = decoded as JwtPayload & { role: string };
+    req.user = decoded as JwtPayload & { roles: string[] };
     next();
   });
 };

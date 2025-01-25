@@ -1,7 +1,6 @@
 import express from 'express';
 import auth from '../../middlewares/auth';
 import validateRequest from '../../middlewares/validateRequest';
-import { USER_ROLE } from '../user/user.constant';
 import { AcademicDepartmentControllers } from './academicDepartment.controller';
 import { AcademicDepartmentValidation } from './academicDepartment.validation';
 
@@ -9,7 +8,7 @@ const router = express.Router();
 
 router.post(
   '/create-academic-department',
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  auth(['superAdmin', 'admin']),
   validateRequest(
     AcademicDepartmentValidation.createAcademicDepartmentValidationSchema,
   ),
@@ -18,18 +17,13 @@ router.post(
 
 router.get(
   '/:departmentId',
-  auth(
-    USER_ROLE.superAdmin,
-    USER_ROLE.admin,
-    USER_ROLE.faculty,
-    USER_ROLE.student,
-  ),
+  auth(['superAdmin', 'admin', 'faculty', 'student']),
   AcademicDepartmentControllers.getSingleAcademicDepartment,
 );
 
 router.patch(
   '/:departmentId',
-  auth(USER_ROLE.superAdmin, USER_ROLE.admin),
+  auth(['superAdmin', 'admin']),
   validateRequest(
     AcademicDepartmentValidation.updateAcademicDepartmentValidationSchema,
   ),
@@ -38,12 +32,7 @@ router.patch(
 
 router.get(
   '/',
-  auth(
-    USER_ROLE.superAdmin,
-    USER_ROLE.admin,
-    USER_ROLE.faculty,
-    USER_ROLE.student,
-  ),
+  auth(['admin', 'faculty', 'instructor', 'superAdmin', 'student']),
   AcademicDepartmentControllers.getAllAcademicDepartments,
 );
 
