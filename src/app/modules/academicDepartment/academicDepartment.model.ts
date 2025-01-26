@@ -10,6 +10,10 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>(
       required: true,
       unique: true,
     },
+    semester: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicSemester',
+    },
     academicFaculty: {
       type: Schema.Types.ObjectId,
       ref: 'AcademicFaculty',

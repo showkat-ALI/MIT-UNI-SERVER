@@ -10,7 +10,13 @@ const createAcademicSemesterIntoDB = async (payload: TAcademicSemester) => {
   if (academicSemesterNameCodeMapper[payload.name] !== payload.code) {
     throw new Error('Invalid Semester Code');
   }
+  const existingSemesters = await AcademicSemester.find({
+    year: payload.year,
+  });
 
+  if (existingSemesters.length >= 3) {
+    throw new Error('Cannot have more than 3 semesters in one year');
+  }
   const result = await AcademicSemester.create(payload);
   return result;
 };
