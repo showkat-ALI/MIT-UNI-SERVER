@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import QueryBuilder from '../../builder/QueryBuilder';
 import { TAcademicDepartment } from './academicDepartment.interface';
 import { AcademicDepartment } from './academicDepartment.model';
@@ -12,7 +13,7 @@ const getAllAcademicDepartmentsFromDB = async (
   query: Record<string, unknown>,
 ) => {
   const academicDepartmentQuery = new QueryBuilder(
-    AcademicDepartment.find().populate('academicFaculty'),
+    AcademicDepartment.find().populate('academicSemester'),
     query,
   )
     .search(AcademicDepartmentSearchableFields)
@@ -31,10 +32,33 @@ const getAllAcademicDepartmentsFromDB = async (
 };
 
 const getSingleAcademicDepartmentFromDB = async (id: string) => {
-  const result =
-    await AcademicDepartment.findById(id).populate('academicFaculty');
+  const result = await AcademicDepartment.aggregate([
+    { $match: { _id: new mongoose.Types.ObjectId(id) } },
+    {
+      $lookup: {
+        from: 'academicfaculties', // The name of the AcademicFaculty collection
+        localField: '_id',
+        foreignField: 'academicDepartment',
+        as: 'academicFaculty',
+      },
+    },
+    {
+      $lookup: {
+        from: 'academicsemesters', // The name of the AcademicSemester collection
+        localField: 'academicSemester',
+        foreignField: '_id',
+        as: 'academicSemester',
+      },
+    },
+    {
+      $unwind: {
+        path: '$academicSemester',
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+  ]);
 
-  return result;
+  return result[0]; // Since aggregate returns an array, return the first element
 };
 
 const updateAcademicDepartmentIntoDB = async (

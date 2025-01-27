@@ -47,6 +47,17 @@ router.post(
   validateRequest(createAdminValidationSchema),
   UserControllers.createAdmin,
 );
+router.post(
+  '/create-superAdmin',
+  auth(['superAdmin']),
+  upload.single('file'),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req.body.data);
+    next();
+  },
+  validateRequest(createAdminValidationSchema),
+  UserControllers.createAdmin,
+);
 
 router.post(
   '/change-status/:id',

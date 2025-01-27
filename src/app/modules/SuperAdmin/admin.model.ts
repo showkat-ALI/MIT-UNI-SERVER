@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { BloodGroup, Gender } from './admin.constant';
-import { AdminModel, TAdmin, TUserName } from './admin.interface';
+import { SuperAdminSchema, TAdmin, TUserName } from './admin.interface';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -21,7 +20,7 @@ const userNameSchema = new Schema<TUserName>({
   },
 });
 
-const adminSchema = new Schema<TAdmin, AdminModel>(
+const adminSchema = new Schema<TAdmin, SuperAdminSchema>(
   {
     id: {
       type: String,
@@ -34,53 +33,22 @@ const adminSchema = new Schema<TAdmin, AdminModel>(
       unique: true,
       ref: 'User',
     },
-    designation: {
-      type: String,
-      required: [true, 'Designation is required'],
-    },
+
     name: {
       type: userNameSchema,
       required: [true, 'Name is required'],
     },
-    gender: {
-      type: String,
-      enum: {
-        values: Gender,
-        message: '{VALUE} is not a valid gender',
-      },
-      required: [true, 'Gender is required'],
-    },
-    dateOfBirth: { type: Date },
+
     email: {
       type: String,
       required: [true, 'Email is required'],
       unique: true,
     },
     contactNo: { type: String, required: [true, 'Contact number is required'] },
-    emergencyContactNo: {
-      type: String,
-      required: [true, 'Emergency contact number is required'],
-    },
-    bloogGroup: {
-      type: String,
-      enum: {
-        values: BloodGroup,
-        message: '{VALUE} is not a valid blood group',
-      },
-    },
 
-    presentAddress: {
-      type: String,
-      required: [true, 'Permanent address is required'],
-    },
-    profileImg: { type: String, default: '' },
     isDeleted: {
       type: Boolean,
       default: false,
-    },
-    assignedDepartment: {
-      type: Schema.Types.ObjectId,
-      ref: 'AcademicDepartment',
     },
   },
   {
@@ -118,9 +86,8 @@ adminSchema.pre('aggregate', function (next) {
 });
 
 //checking if user is already exist!
-adminSchema.statics.isUserExists = async function (id: string) {
-  const existingUser = await Admin.findOne({ id });
-  return existingUser;
-};
 
-export const Admin = model<TAdmin, AdminModel>('Admin', adminSchema);
+export const SuperAdmin = model<TAdmin, SuperAdminSchema>(
+  'SuperAdmin',
+  adminSchema,
+);

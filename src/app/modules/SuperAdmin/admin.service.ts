@@ -6,10 +6,10 @@ import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { AdminSearchableFields } from './admin.constant';
 import { TAdmin } from './admin.interface';
-import { Admin } from './admin.model';
-import { AcademicDepartment } from '../AcademicDepartment/academicDepartment.model';
+import { SuperAdmin } from './admin.model';
+
 const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
-  const adminQuery = new QueryBuilder(Admin.find(), query)
+  const adminQuery = new QueryBuilder(SuperAdmin.find(), query)
     .search(AdminSearchableFields)
     .filter()
     .sort()
@@ -23,67 +23,9 @@ const getAllAdminsFromDB = async (query: Record<string, unknown>) => {
     meta,
   };
 };
-const assignAnAdminIntoDept = async (
-  id: string,
-  payload: { academicDepartment: mongoose.Types.ObjectId },
-) => {
-  const admin = await Admin.findById(id);
-  const academicDepartment = await AcademicDepartment.findById({
-    _id: payload.academicDepartment,
-  });
-  if (!admin) {
-    throw new AppError(httpStatus.NOT_FOUND, 'Admin not found');
-  }
 
-  if (admin.assignedDepartment) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'Admin is already assigned to a department',
-    );
-  }
-  if (academicDepartment?.assignedAdmin) {
-    throw new AppError(
-      httpStatus.BAD_REQUEST,
-      'This department has Already a Admin',
-    );
-  }
-
-  const session = await mongoose.startSession();
-
-  try {
-    session.startTransaction();
-    //set  generated id
-    const updatedAdmin = await Admin.findOneAndUpdate(
-      { _id: id },
-      { assignedDepartment: payload.academicDepartment },
-      { new: true, runValidators: true },
-    );
-
-    if (!updatedAdmin) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to Assign Admin');
-    }
-
-    const updatedAcademicDepartment = await AcademicDepartment.findOneAndUpdate(
-      { _id: payload.academicDepartment },
-      { assignedAdmin: id },
-      { new: true, runValidators: true },
-    );
-
-    if (!updatedAcademicDepartment) {
-      throw new AppError(httpStatus.BAD_REQUEST, 'Failed to Add Admin');
-    }
-    await session.commitTransaction();
-    await session.endSession();
-
-    return updatedAdmin;
-  } catch (err: any) {
-    await session.abortTransaction();
-    await session.endSession();
-    throw new Error(err);
-  }
-};
 const getSingleAdminFromDB = async (id: string) => {
-  const result = await Admin.findById(id);
+  const result = await SuperAdmin.findById(id);
   return result;
 };
 
@@ -100,10 +42,14 @@ const updateAdminIntoDB = async (id: string, payload: Partial<TAdmin>) => {
     }
   }
 
-  const result = await Admin.findByIdAndUpdate({ id }, modifiedUpdatedData, {
-    new: true,
-    runValidators: true,
-  });
+  const result = await SuperAdmin.findByIdAndUpdate(
+    { id },
+    modifiedUpdatedData,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
   return result;
 };
 
@@ -113,7 +59,7 @@ const deleteAdminFromDB = async (id: string) => {
   try {
     session.startTransaction();
 
-    const deletedAdmin = await Admin.findByIdAndUpdate(
+    const deletedAdmin = await SuperAdmin.findByIdAndUpdate(
       id,
       { isDeleted: true },
       { new: true, session },
@@ -152,5 +98,4 @@ export const AdminServices = {
   getSingleAdminFromDB,
   updateAdminIntoDB,
   deleteAdminFromDB,
-  assignAnAdminIntoDept,
 };

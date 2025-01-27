@@ -14,6 +14,7 @@ const getSingleAdmin = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const getAllAdmins = catchAsync(async (req, res) => {
   const result = await AdminServices.getAllAdminsFromDB(req.query);
 
@@ -50,23 +51,10 @@ const deleteAdmin = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const assignAdminIntoDept = catchAsync(async (req, res) => {
-  const { id } = req.params;
-
-  const result = await AdminServices.assignAnAdminIntoDept(id, req.body);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Department is assigned successfully',
-    data: result,
-  });
-});
 
 export const AdminControllers = {
   getAllAdmins,
   getSingleAdmin,
   deleteAdmin,
   updateAdmin,
-  assignAdminIntoDept,
 };

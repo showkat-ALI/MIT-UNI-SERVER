@@ -29,9 +29,9 @@ export type TAdmin = {
   emergencyContactNo: string;
   bloogGroup?: TBloodGroup;
   presentAddress: string;
-  permanentAddress: string;
   profileImg?: string;
   isDeleted: boolean;
+  assignedDepartment: Types.ObjectId;
 };
 
 export interface AdminModel extends Model<TAdmin> {

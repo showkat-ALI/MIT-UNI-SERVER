@@ -6,7 +6,7 @@ import { updateAdminValidationSchema } from './admin.validation';
 
 const router = express.Router();
 
-router.get('/', auth(['superAdmin']), AdminControllers.getAllAdmins);
+router.get('/', auth(['superAdmin', 'admin']), AdminControllers.getAllAdmins);
 
 router.get(
   '/:id',
@@ -19,11 +19,6 @@ router.patch(
   auth(['superAdmin', 'admin']),
   validateRequest(updateAdminValidationSchema),
   AdminControllers.updateAdmin,
-);
-router.post(
-  '/assignDepartment/:id',
-  auth(['superAdmin']),
-  AdminControllers.assignAdminIntoDept,
 );
 
 router.delete('/:adminId', auth(['superAdmin']), AdminControllers.deleteAdmin);

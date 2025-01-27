@@ -18,6 +18,8 @@ const getAllAcademicFacultiesFromDB = async (
     .paginate()
     .fields();
 
+  academicFacultyQuery.modelQuery.populate('AcademicDepartment');
+
   const result = await academicFacultyQuery.modelQuery;
   const meta = await academicFacultyQuery.countTotal();
 
