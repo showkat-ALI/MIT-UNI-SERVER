@@ -27,7 +27,6 @@ export const createFacultyValidationSchema = z.object({
       bloogGroup: z.enum([...BloodGroup] as [string, ...string[]]),
       presentAddress: z.string(),
       permanentAddress: z.string(),
-      academicDepartment: z.string(),
       // profileImg: z.string(),
     }),
   }),

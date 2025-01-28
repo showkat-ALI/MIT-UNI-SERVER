@@ -14,6 +14,12 @@ router.post(
   ),
   AcademicFacultyControllers.createAcademicFaculty,
 );
+router.post(
+  '/assign-faculty/:academicFacultyID',
+  auth(['superAdmin', 'admin']),
+
+  AcademicFacultyControllers.assignAFaculty,
+);
 
 router.get(
   '/:id',

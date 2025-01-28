@@ -43,6 +43,21 @@ const getSingleAcademicFaculty = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const assignAFaculty = catchAsync(async (req, res) => {
+  const { academicFacultyID } = req.params;
+
+  const result = await AcademicFacultyServices.assignAFacultyForAcademicFaculty(
+    academicFacultyID,
+    req.body,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Academic Faculty is assigned successfully',
+    data: result,
+  });
+});
 
 const updateAcademicFaculty = catchAsync(async (req, res) => {
   const { facultyId } = req.params;
@@ -64,4 +79,5 @@ export const AcademicFacultyControllers = {
   getAllAcademicFaculties,
   getSingleAcademicFaculty,
   updateAcademicFaculty,
+  assignAFaculty,
 };

@@ -31,8 +31,8 @@ export type TFaculty = {
   presentAddress: string;
   permanentAddress: string;
   profileImg?: string;
-  academicDepartment: Types.ObjectId;
-  academicFaculty: Types.ObjectId;
+  assignedAcademicFaculty: Types.ObjectId;
+  isAssigned: boolean;
   isDeleted: boolean;
 };
 

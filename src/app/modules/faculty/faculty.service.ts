@@ -10,7 +10,17 @@ import { Faculty } from './faculty.model';
 
 const getAllFacultiesFromDB = async (query: Record<string, unknown>) => {
   const facultyQuery = new QueryBuilder(
-    Faculty.find().populate('academicDepartment academicFaculty'),
+    Faculty.find({ isAssigned: false }).populate({
+      path: 'assignedAcademicFaculty',
+      populate: [
+        {
+          path: 'academicDepartment',
+          populate: {
+            path: 'academicSemester',
+          },
+        },
+      ],
+    }),
     query,
   )
     .search(FacultySearchableFields)
