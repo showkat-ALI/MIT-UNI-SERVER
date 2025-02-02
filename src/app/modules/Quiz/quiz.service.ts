@@ -42,15 +42,16 @@ const getallQuestionsOfAInsFromDB = async (req: Request) => {
   const userID = req.params;
   try {
     // Assuming you have a function to save the assignment data to the database
-    const quiz = await Quiz.findById({ _id: data.quiz });
-    if (!quiz) {
-      throw new AppError(httpStatus.NOT_FOUND, 'Quiz not found');
+    const question = await Question.find();
+    const Quizzes = await Quiz.find();
+    const userQuizzes = Quizzes.filter(
+      (quiz) => quiz.createdBy.toString() === userID.toString(),
+    );
+    if (!question) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Questions not found');
     }
-    if (quiz) {
-      const savedQuestion = await Question.create(data);
 
-      return { savedQuestion };
-    }
+    return { userQuizzes };
   } catch (error) {
     throw new AppError(
       httpStatus.INTERNAL_SERVER_ERROR,
